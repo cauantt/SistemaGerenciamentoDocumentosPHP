@@ -34,7 +34,7 @@ if (isset($_SESSION['id_usuario'])) {
                 <?php endif; ?>
                 <?php if (isset($_SESSION['role']) && $_SESSION['role'] !== 'admin') : ?>
                     <a class="nav-item nav-link" href="editar_conta.php">Editar Conta</a>
-                    <a class="nav-item nav-link" href="https://wa.me/5534331633">Suporte</a>
+                   
                   
 
                 <?php endif; ?>
