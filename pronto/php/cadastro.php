@@ -8,34 +8,55 @@ $ds_produto = $_POST['c_desc'];
 $id_usuario = $_SESSION['id_usuario']; // Utilizar corretamente o id_usuario da sessão
 $usuario = $_SESSION['usuario']; // Obter o nome do usuário da sessão
 
-$pdf = $_FILES['pdf'];
-$tmp_pdf = $pdf['tmp_name'];
-$name_pdf = $pdf['name'];
-$type_pdf = $pdf['type'];
+// Verifica se um arquivo PDF foi enviado
+if (isset($_FILES['pdf']) && $_FILES['pdf']['error'] == UPLOAD_ERR_OK) {
+    $pdf = $_FILES['pdf'];
+    $tmp_pdf = $pdf['tmp_name'];
+    $name_pdf = $pdf['name'];
+    $type_pdf = $pdf['type'];
 
-mysqli_select_db($conexao, "bd_resolv");
+    // Diretório onde os arquivos serão salvos
+    $upload_dir = '../uploads/';
 
-if (!empty($name_pdf) && $type_pdf == 'application/pdf') {
-    $conteudo_pdf = addslashes(file_get_contents($tmp_pdf));
-    $nome_pdf = 'pdf-' . uniqid() . '.pdf';
+    // Verifica se o arquivo enviado é PDF
+    if ($type_pdf == 'application/pdf') {
+        // Gerar um nome único para o arquivo PDF
+        $nome_pdf = 'pdf-' . uniqid() . '.pdf';
+        $caminho_pdf = $upload_dir . $nome_pdf;
 
-    // Prepared statement para inserção de produtos
-    $stmt = mysqli_prepare($conexao, "INSERT INTO tb_produto (nm_produto, ds_produto, nm_imagem_produto, pdf, vl_produto, id_usuario, usuario) 
-                                     VALUES (?, ?, '', ?, ?, ?, ?)");
-    mysqli_stmt_bind_param($stmt, "ssssis", $nm_produto, $ds_produto, $conteudo_pdf, $valor_produto, $id_usuario, $usuario);
-    $salvar = mysqli_stmt_execute($stmt);
-
-    if ($salvar) {
-        header("Location: listar_produto.php?id_usuario=".$_SESSION['id_usuario']);
-        exit();
+        // Mover o arquivo PDF para a pasta de uploads
+        if (move_uploaded_file($tmp_pdf, $caminho_pdf)) {
+            // Preparar o nome do arquivo para salvar no banco de dados
+            $nome_arquivo_bd = $nome_pdf;
+        } else {
+            // Mensagem de erro ao mover o arquivo
+            echo "<script>alert('Erro ao mover o arquivo PDF para o diretório de uploads.'); window.location.href = 'cadastro_produto.php';</script>";
+            exit();
+        }
     } else {
-        echo "Erro ao salvar produto no banco de dados.";
+        // Mensagem de erro de tipo de arquivo inválido
+        echo "<script>alert('Apenas arquivos PDF são permitidos.'); window.location.href = 'cadastro_produto.php';</script>";
+        exit();
     }
-
-    mysqli_stmt_close($stmt);
 } else {
-    echo "Apenas arquivos PDF são permitidos.";
+    // Se nenhum arquivo foi enviado, definir o nome do arquivo como vazio
+    $nome_arquivo_bd = '';
 }
 
+// Prepared statement para inserção de produtos
+$stmt = mysqli_prepare($conexao, "INSERT INTO tb_produto (nm_produto, ds_produto, nm_imagem_produto, pdf, vl_produto, id_usuario, usuario) 
+                                 VALUES (?, ?, '', ?, ?, ?, ?)");
+mysqli_stmt_bind_param($stmt, "ssssis", $nm_produto, $ds_produto, $nome_arquivo_bd, $valor_produto, $id_usuario, $usuario);
+$salvar = mysqli_stmt_execute($stmt);
+
+if ($salvar) {
+    // Mensagem de sucesso
+    echo "<script>alert('Produto cadastrado com sucesso.'); window.location.href = 'listar_produto.php?id_usuario=" . $_SESSION['id_usuario'] . "';</script>";
+} else {
+    // Mensagem de erro ao salvar no banco de dados
+    echo "<script>alert('Erro ao salvar produto no banco de dados.'); window.location.href = 'cadastro_produto.php';</script>";
+}
+
+mysqli_stmt_close($stmt);
 mysqli_close($conexao);
 ?>

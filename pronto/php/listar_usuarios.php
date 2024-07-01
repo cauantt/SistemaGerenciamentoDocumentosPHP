@@ -56,7 +56,7 @@ if (!$resultado) {
                             echo '<td>'.$linha['nm_email'].'</td>';
                             echo '<td>';
                             // Botão para excluir usuário com confirmação
-                            echo "<a href='http://localhost/pronto/php/listar_produto.php?id_usuario=".$linha["id_usuario"]."' class='btn btn-sm btn-info'>Exibir</a>&nbsp;";
+                            echo "<a href='listar_produto.php?id_usuario=".$linha["id_usuario"]."' class='btn btn-sm btn-info'>Exibir</a>&nbsp;";
 
 
                             echo "<button type='button' class='btn btn-sm btn-danger' onclick='confirmarExclusao(" . $linha['id_usuario'] . ")'>Excluir</button>&nbsp;";

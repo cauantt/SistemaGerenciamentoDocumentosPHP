@@ -103,12 +103,12 @@ if (!$resultado) {
                                         <div class="modal-body">
                                             <h4><b>Data:</b></h4>
                                             <p><?php if (!is_null($linha['nm_produto'])) {
-                                $dataFormatada = date('d/m/Y', strtotime($linha['nm_produto']));
-                                echo $dataFormatada;
-                            } else {
-                                echo "Data não disponível";
-                            }
-                            ;?></p>
+                                                $dataFormatada = date('d/m/Y', strtotime($linha['nm_produto']));
+                                                echo $dataFormatada;
+                                            } else {
+                                                echo "Data não disponível";
+                                            }
+                                            ;?></p>
                                             <?php
                                             if (!empty($linha['pdf'])) {
                                                 echo '<h4><b>PDF:</b></h4>';

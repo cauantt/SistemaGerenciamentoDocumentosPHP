@@ -22,7 +22,7 @@ if (isset($_SESSION['id_usuario'])) {
             <span class="navbar-toggler-icon"></span>
             
         </button>
-        <img src="../uploads/cb_black.png" > 
+        
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
             <a class="nav-item nav-link active" href="http://localhost/pronto/php/listar_produto.php?id_usuario=<?php echo $_SESSION['id_usuario']; ?>">Resumo de Faturamento<span class="sr-only">(current)</span></a>
@@ -34,7 +34,11 @@ if (isset($_SESSION['id_usuario'])) {
                 <?php endif; ?>
                 <?php if (isset($_SESSION['role']) && $_SESSION['role'] !== 'admin') : ?>
                     <a class="nav-item nav-link" href="editar_conta.php">Editar Conta</a>
+                    <a class="nav-item nav-link" href="https://wa.me/5534331633">Suporte</a>
+                  
+
                 <?php endif; ?>
+
                 <a class="nav-item nav-link" href="index.html">Sair</a>
             </div>
         </div>

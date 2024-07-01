@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="utf-8">
     <title>Login</title>
-    <!-- Incluir seus estilos CSS aqui -->
+  
 
     <script>
     // JavaScript para exibir alerta e redirecionar

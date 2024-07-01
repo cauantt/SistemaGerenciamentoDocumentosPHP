@@ -1,4 +1,9 @@
 <?php
+session_start();
+
+
+$id_usuario = isset($_GET['id_usuario']) ? $_GET['id_usuario'] : null;
+$mensagem = '';
 if (isset($_GET['produto_id'])) {
     $produto_id = $_GET['produto_id'];
 
@@ -14,7 +19,7 @@ if (isset($_GET['produto_id'])) {
 
     if (mysqli_stmt_affected_rows($stmt) > 0) {
         // Redirecionar após a exclusão bem-sucedida
-        header("Location: listar_produto.php");
+        header("Location: listar_produto.php?id_usuario=".$_SESSION['id_usuario']);
         exit();
     } else {
         echo "Erro ao excluir o produto.";
