@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `tb_produto` (
 
 2 - Conexão com o banco de dados:
 
-  Faça o ajuste e conexão ao banco de dados pel arquivo: conexao.php
+  Faça o ajuste e conexão ao banco de dados pelo arquivo: conexao.php
 
 
 Uso:
